@@ -9,6 +9,11 @@ import os
 import sys
 
 
+showIm = False
+if len(sys.argv) > 1:
+    showIm = True
+
+
 # proizvod, cijena, valuta, kolicina, svrha, datum
 def newPriceCalculation(df, brojProizvoda=0):
     sum = 0
@@ -37,7 +42,7 @@ def newDate(df):
 
 
 # proizvod, cijena, valuta, kolicina, svrha, datum
-def showPlots(df):
+def showPlots(df, x, k, l):
     fig = go.Figure()
     imName = (
         "Slike/GrafPotrošnje" + datetime.datetime.today().strftime("%d_%m_%Y") + ".png"
@@ -45,6 +50,14 @@ def showPlots(df):
     fig.add_trace(go.Scatter(x=df["Datum"], y=df["Cijena"], name="Potršnja"))
     fig.add_trace(
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
+    )
+    fig.add_trace(
+        go.Line(
+            x=df["Datum"],
+            y=line_fit(x, k, l),
+            name="Linear fit",
+            mode="markers",
+        )
     )
     pio.write_image(fig, imName, width=2000, height=2000)
     if showIm:
@@ -63,6 +76,10 @@ def showStatistics(df, brProiz):
             Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}"
 
 
+def line_fit(x, k, l):
+    return k * x + l
+
+
 native_val = "eur"
 # proizvod, cijena, valuta, kolicina, svrha, datum
 df = pd.read_csv("potrosnja.csv", delimiter=",", header=0)
@@ -70,18 +87,20 @@ df = pd.read_csv("potrosnja.csv", delimiter=",", header=0)
 if not os.path.exists("Slike"):
     os.mkdir("Slike")
 
-showIm = False
-if len(sys.argv) > 1:
-    showIm = True
-
 df["Datum"] = newDate(df)
+length = len(df["Cijena"])
+td = pd.Series([pd.Timedelta(minutes=i) for i in range(length)])
+df["Datum"] += td
 df["Kumulativna suma"], brProiz, df["Ukupna cijena"] = newPriceCalculation(df)
 
-showPlots(df)
+datum = np.linspace(0, length, length)
+k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
+print(f"k = {k}\n\nl = {l}")
+
+showPlots(df, datum, k, l)
 stats = showStatistics(df, brProiz)
 
 df.to_excel("Potrošnja.xlsx")
 df = tabulate(df, showindex=False, headers=df.columns)
 print(df)
-
 print(stats)
