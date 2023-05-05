@@ -1,24 +1,12 @@
 import pandas as pd
 import plotly.io as pio
+import numpy as np
 import datetime
 from tabulate import tabulate
 from currency_converter import CurrencyConverter
 import plotly.graph_objects as go
 import os
 import sys
-
-native_val = "eur"
-
-# proizvod, cijena, valuta, kolicina, svrha, datum
-df = pd.read_csv("potrosnja.csv", delimiter=",", header=0)
-
-if not os.path.exists("Slike"):
-    os.mkdir("Slike")
-
-
-showIm = False
-if len(sys.argv) > 1:
-    showIm = True
 
 
 # proizvod, cijena, valuta, kolicina, svrha, datum
@@ -74,6 +62,17 @@ def showStatistics(df, brProiz):
             Potrošnja bez najskupljeg proizvoda: {df['Kumulativna suma'].iloc[-1] - df['Cijena'].max()}\n\
             Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}"
 
+
+native_val = "eur"
+# proizvod, cijena, valuta, kolicina, svrha, datum
+df = pd.read_csv("potrosnja.csv", delimiter=",", header=0)
+
+if not os.path.exists("Slike"):
+    os.mkdir("Slike")
+
+showIm = False
+if len(sys.argv) > 1:
+    showIm = True
 
 df["Datum"] = newDate(df)
 df["Kumulativna suma"], brProiz, df["Ukupna cijena"] = newPriceCalculation(df)
