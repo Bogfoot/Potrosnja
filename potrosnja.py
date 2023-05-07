@@ -21,7 +21,6 @@ if len(sys.argv) > 1:
     showIm = True
 
 
-# proizvod, cijena, valuta, kolicina, svrha, datum
 def newPriceCalculation(df, brojProizvoda=0):
     sum = 0
     cum_sum = []
@@ -43,12 +42,10 @@ def newPriceCalculation(df, brojProizvoda=0):
     return cum_sum, brojProizvoda, uk
 
 
-# proizvod, cijena, valuta, kolicina, svrha, datum
 def newDate(df):
     return pd.to_datetime(df["Datum"], format="%d.%m.%Y", dayfirst=True)
 
 
-# proizvod, cijena, valuta, kolicina, svrha, datum
 def showPlots(df):
     fig = go.Figure()
     imName = (
@@ -65,14 +62,15 @@ def showPlots(df):
         return
 
 
-# proizvod, cijena, valuta, kolicina, svrha, datum
 def showStatistics(df, brProiz):
     return f"Najskuplji predmet: {df['Proizvod'][df['Cijena'].idxmax()]} Cijena: {df['Cijena'].max()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Srednja vrijednost proizvoda: {df['Cijena'].mean()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Standardna devijacija: {df['Cijena'].std()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Medijan: {df['Cijena'].median()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Potrošnja bez najskupljeg proizvoda: {df['Kumulativna suma'].iloc[-1] - df['Cijena'].max()}\n\
-            Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}"
+            Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
+            Jučerašnja potrošnja: {df.loc[df['Datum'] == datetime.date.today() - datetime.timedelta(days=1), 'Cijena'].sum()}\n\
+            Današnja potrošnja: {df.loc[df['Datum'] == datetime.date.today(), 'Cijena'].sum()}"
 
 
 df["Datum"] = newDate(df)
@@ -80,6 +78,7 @@ df["Kumulativna suma"], brProiz, df["Ukupna cijena"] = newPriceCalculation(df)
 
 showPlots(df)
 stats = showStatistics(df, brProiz)
+# print(datetime.date.today() - datetime.timedelta(days=1))
 
 df.to_excel("Potrošnja.xlsx")
 df = tabulate(df, showindex=False, headers=df.columns)
