@@ -39,12 +39,7 @@ def newDate(df):
     return pd.to_datetime(df["Datum"], format="%d.%m.%Y", dayfirst=True)
 
 
-<<<<<<< HEAD
-# proizvod, cijena, valuta, kolicina, svrha, datum
-def showPlots(df, x, k, l):
-=======
 def showPlots(df):
->>>>>>> 0bf13dd8a839501a07d9a935d03ade1a92750989
     fig = go.Figure()
     imName = (
         "Slike/GrafPotrošnje" + datetime.datetime.today().strftime("%d_%m_%Y") + ".png"
@@ -56,7 +51,7 @@ def showPlots(df):
     fig.add_trace(
         go.Line(
             x=df["Datum"],
-            y=line_fit(x, k, l),
+            y=line_fit(np.linspace(0,len(df["Datum"]),len(df["Datum"])), k, l),
             name="Linear fit",
             mode="markers",
         )
@@ -100,7 +95,7 @@ datum = np.linspace(0, length, length)
 k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
 print(f"k = {k}\n\nl = {l}")
 
-showPlots(df, datum, k, l)
+showPlots(df)
 stats = showStatistics(df, brProiz)
 # print(datetime.date.today() - datetime.timedelta(days=1))
 
