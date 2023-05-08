@@ -60,28 +60,8 @@ DP kabel,9.19,eur,1,tehnologija,28.04.2023
 eutiroks 50/75 mg,1.03,eur,1,medicina,28.04.2023
 ostenicept 250 ml,9.5,eur,1,medicina,28.04.2023
 KFC za svih,28.5,eur,1,hrana,30.04.2023
-<<<<<<< HEAD
-gorivo,1.4,eur,34.25,prijevoz,02.05.2023
-HR autoceste,12,eur,1,prijevoz,02.05.2023
-rizle,0.6,eur,1,pušenje,02.05.2023
-ručak,6.6,eur,1,hrana,03.05.2023
-kava,1,eur,1,hrana,03.05.2023
-Ethernet kabel,4.99,eur,1,tehnologija,03.05.2023
-sir emmental,1.89,eur,2,hrana,03.05.2023
-coca cola 1.5l,1.59,eur,1,hrana,03.05.2023
-Whiskey J. Walker,1.49,eur,1,hrana,03.05.2023
-spar tost american sandwich,1.59,eur,1,hrana,03.05.2023
-kechup heinz 1kg,4.58,eur,1,hrana,03.05.2023
-papirnate krpe,1.95,eur,1,kuca,03.05.2023
-kava s mlijekom,1.7,eur,2,hrana,04.05.2023
-trotillia - tuna,3.3,eur,2,hrana,04.05.2023
-Duhan - winston,5,eur,1,pušenje,04.05.2023
-Winston blue,4.5,eur,1,pušenje,04.05.2023
-Pivo - union radler,2.9,eur,1,hrana,04.05.2023
-kava s mlijekom,1.7,eur,1,hrana,05.05.2023
-trotillia - tuna,3.3,eur,1,hrana,05.05.2023
-menza,6.6,eur,1,hrana,05.05.2023
-=======
+kava s mlijekom,1.7,eur,1,hrana,5.05.2023
+trotillia - tuna,3.3,eur,1,hrana,5.05.2023
 gorivo,1.4,eur,34.25,prijevoz,2.05.2023
 HR autoceste,12,eur,1,prijevoz,2.05.2023
 rizle,0.6,eur,1,pušenje,2.05.2023
@@ -99,6 +79,7 @@ trotillia - tuna,3.3,eur,2,hrana,4.05.2023
 Duhan - winston,5,eur,1,pušenje,4.05.2023
 Winston blue,4.5,eur,1,pušenje,4.05.2023
 Pivo - union radler,2.9,eur,1,hrana,4.05.2023
+menza,6.6,eur,1,hrana,5.05.2023
 metar,1.99,eur,1,kuća,6.05.2023
 sviječa - šumsko voće,2.99,eur,1,kuća,6.05.2023
 sviječa - trava,5.99,eur,1,kuća,6.05.2023
@@ -109,7 +90,11 @@ jorga,8.99,eur,1,kuća,6.05.2023
 ikea senf,1.99,eur,2,hrana,6.05.2023
 ikea ručak,6.67,eur,1,hrana,6.05.2023
 listići za označivanje stranica,4.99,eur,1,ured,6.05.2023
-košulja kratka,29.99,eur,1,roba,06.05.2023
-narudžba hrane,11.29,eur,1,hrana,06.05.2023
-narudžba hrane,10.91,eur,1,hrana,07.05.2023
->>>>>>> 0bf13dd8a839501a07d9a935d03ade1a92750989
+košulja kratka,29.99,eur,1,roba,6.05.2023
+narudžba hrane,11.29,eur,1,hrana,6.05.2023
+narudžba hrane,10.91,eur,1,hrana,7.05.2023
+narudžba hrane,14.79,eur,1,hrana,7.05.2023
+pivo,3.5,eur,1,hrana,7.05.2023
+busna karta,1.3,eur,10,prijevoz,7.05.2023
+kava s mlijekom,1.7,eur,1,hrana,8.05.2023
+tortillia - mexicana,3.3,eur,1,hrana,8.05.2023
