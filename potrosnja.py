@@ -97,7 +97,6 @@ print(f"k = {k}\n\nl = {l}")
 
 showPlots(df)
 stats = showStatistics(df, brProiz)
-# print(datetime.date.today() - datetime.timedelta(days=1))
 
 df.to_excel("Potrošnja.xlsx")
 df = tabulate(df, showindex=False, headers=df.columns)
