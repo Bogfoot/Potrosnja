@@ -87,9 +87,10 @@ if not os.path.exists("Slike"):
 
 df["Datum"] = newDate(df)
 length = len(df["Cijena"])
-td = pd.Series([pd.Timedelta(minutes=i) for i in range(length)])
+td = pd.Series([pd.Timedelta(seconds=i) for i in range(length)])
 df["Datum"] += td
 df["Kumulativna suma"], brProiz, df["Ukupna cijena"] = newPriceCalculation(df)
+df.sort_values(by="Datum")
 
 datum = np.linspace(0, length, length)
 k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
