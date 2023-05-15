@@ -27,7 +27,7 @@ def newPriceCalculation(df, brojProizvoda=0):
                 str(df["Valuta"][item]).upper(),
                 str(native_val).upper(),
             )
-        ukupno = df["Cijena"][item] * df["Kolicina"][item]
+        ukupno = -df["Cijena"][item] * df["Kolicina"][item]
         uk.append(ukupno)
         sum += ukupno
         brojProizvoda += df["Kolicina"][item]
