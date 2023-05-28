@@ -44,14 +44,14 @@ def showPlots(df):
     imName = (
         "Slike/GrafPotrošnje" + datetime.datetime.today().strftime("%d_%m_%Y") + ".png"
     )
-    fig.add_trace(go.Scatter(x=df["Datum"], y=df["Cijena"], name="Potršnja"))
+    fig.add_trace(go.Line(x=df["Datum"], y=df["Cijena"], name="Potršnja"))
     fig.add_trace(
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
     fig.add_trace(
         go.Line(
             x=df["Datum"],
-            y=line_fit(np.linspace(0,len(df["Datum"]),len(df["Datum"])), k, l),
+            y=line_fit(np.linspace(0, len(df["Datum"]), len(df["Datum"])), k, l),
             name="Linear fit",
             mode="markers",
         )
@@ -81,6 +81,7 @@ def line_fit(x, k, l):
 native_val = "eur"
 # proizvod, cijena, valuta, kolicina, svrha, datum
 df = pd.read_csv("potrosnja.csv", delimiter=",", header=0)
+df.sort_values("Datum")
 
 if not os.path.exists("Slike"):
     os.mkdir("Slike")
