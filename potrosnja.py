@@ -48,6 +48,7 @@ def showPlots(df):
     fig.add_trace(
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
+
     fig.add_trace(
         go.Line(
             x=df["Datum"],
