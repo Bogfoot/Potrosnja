@@ -17,11 +17,12 @@ if len(sys.argv) > 1:
 def newPriceCalculation(df, brojProizvoda=0):
     sum = 0
     cum_sum = []
-    c = CurrencyConverter()
+    # c = CurrencyConverter()
     df["Stara cijena"] = df["Cijena"]
     uk = []
     for item in range(len(df["Cijena"])):
         if df["Valuta"][item] != native_val:
+            # df["Cijena"][item] = df["Cijena"][item]/7.54
             df["Cijena"][item] = c.convert(
                 df["Cijena"][item],
                 str(df["Valuta"][item]).upper(),
@@ -57,7 +58,7 @@ def showPlots(df):
             mode="markers",
         )
     )
-    pio.write_image(fig, imName, width=2000, height=2000)
+    # pio.write_image(fig, imName, width=2000, height=2000)
     if showIm:
         return fig.show()
     else:
