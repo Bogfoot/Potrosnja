@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import pandas as pd
 import plotly.io as pio
 import numpy as np
@@ -22,7 +23,6 @@ def newPriceCalculation(df, brojProizvoda=0):
     uk = []
     for item in range(len(df["Cijena"])):
         if df["Valuta"][item] != native_val:
-            # df["Cijena"][item] = df["Cijena"][item]/7.54
             df["Cijena"][item] = c.convert(
                 df["Cijena"][item],
                 str(df["Valuta"][item]).upper(),
@@ -72,7 +72,6 @@ def showStatistics(df, brProiz):
             Jučerašnja potrošnja: {df.loc[df['Datum'] == datetime.date.today() - datetime.timedelta(days=1), 'Cijena'].sum()}\n\
             Današnja potrošnja: {df.loc[df['Datum'] == datetime.date.today(), 'Cijena'].sum()}"
 
-
 def line_fit(x, k, l):
     return k * x + l
 
@@ -87,8 +86,8 @@ if not os.path.exists("Slike"):
 
 df["Datum"] = newDate(df)
 length = len(df["Cijena"])
-td = pd.Series([pd.Timedelta(seconds=i) for i in range(length)])
-df["Datum"] += td
+# td = pd.Series([pd.Timedelta(milliseconds=i) for i in range(length)])
+# df["Datum"] += td
 df["Kumulativna suma"], brProiz, df["Ukupna cijena"] = newPriceCalculation(df)
 df.sort_values(by="Datum")
 
