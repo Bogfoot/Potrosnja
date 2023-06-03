@@ -59,10 +59,7 @@ def showPlots(df):
         )
     )
     # pio.write_image(fig, imName, width=2000, height=2000)
-    if showIm:
-        return fig.show()
-    else:
-        return
+    return fig.show()
 
 
 def showStatistics(df, brProiz):
