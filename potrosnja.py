@@ -68,9 +68,10 @@ def showStatistics(df, brProiz):
             Standardna devijacija: {df['Cijena'].std()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Medijan: {df['Cijena'].median()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Potrošnja bez najskupljeg proizvoda: {df['Kumulativna suma'].iloc[-1] - df['Cijena'].max()}\n\
-            Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
-            Jučerašnja potrošnja: {df.loc[df['Datum'] == datetime.date.today() - datetime.timedelta(days=1), 'Cijena'].sum()}\n\
-            Današnja potrošnja: {df.loc[df['Datum'] == datetime.date.today(), 'Cijena'].sum()}"
+            Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1])/brProiz}\n\
+            Današnja potrošnja: {df['Dnevna Potrošnja'].iloc[-1]}"
+
+            # Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
 
 def line_fit(x, k, l):
     return k * x + l
@@ -95,10 +96,12 @@ datum = np.linspace(0, length, length)
 k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
 print(f"k = {k}\n\nl = {l}")
 
+df['Dnevna Potrošnja'] = df.groupby(df['Datum'].dt.date)['Cijena'].transform('sum')
 showPlots(df)
 stats = showStatistics(df, brProiz)
 
 df.to_excel("Potrošnja.xlsx")
+
 df = tabulate(df, showindex=False, headers=df.columns)
 print(df)
 print(stats)
