@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import pandas as pd
-import plotly.io as pio
 import numpy as np
 import datetime
 from tabulate import tabulate
@@ -18,7 +17,7 @@ if len(sys.argv) > 1:
 def newPriceCalculation(df, brojProizvoda=0):
     sum = 0
     cum_sum = []
-    # c = CurrencyConverter()
+    c = CurrencyConverter()
     df["Stara cijena"] = df["Cijena"]
     uk = []
     for item in range(len(df["Cijena"])):
@@ -71,7 +70,8 @@ def showStatistics(df, brProiz):
             Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1])/brProiz}\n\
             Današnja potrošnja: {df['Dnevna Potrošnja'].iloc[-1]}"
 
-            # Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
+    # Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
+
 
 def line_fit(x, k, l):
     return k * x + l
@@ -96,7 +96,7 @@ datum = np.linspace(0, length, length)
 k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
 print(f"k = {k}\n\nl = {l}")
 
-df['Dnevna Potrošnja'] = df.groupby(df['Datum'].dt.date)['Cijena'].transform('sum')
+df["Dnevna Potrošnja"] = df.groupby(df["Datum"].dt.date)["Cijena"].transform("sum")
 showPlots(df)
 stats = showStatistics(df, brProiz)
 
