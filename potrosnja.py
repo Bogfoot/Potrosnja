@@ -66,7 +66,6 @@ def showStatistics(df, brProiz):
             Srednja vrijednost proizvoda: {df['Cijena'].mean()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Standardna devijacija: {df['Cijena'].std()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Medijan: {df['Cijena'].median()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Potrošnja bez najskupljeg proizvoda: {df['Kumulativna suma'].iloc[-1] - df['Cijena'].max()}\n\
             Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1])/brProiz}\n\
             Današnja potrošnja: {df['Dnevna Potrošnja'].iloc[-1]}"
 
@@ -96,7 +95,8 @@ datum = np.linspace(0, length, length)
 k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
 print(f"k = {k}\n\nl = {l}")
 
-df["Dnevna Potrošnja"] = df.groupby(df["Datum"].dt.date)["Cijena"].transform("sum")
+df["Dnevna Potrošnja"] = df["Cijena"] * df["Kolicina"]
+df["Dnevna Potrošnja"] = df.groupby(df["Datum"].dt.date)["Dnevna Potrošnja"].transform("sum")
 showPlots(df)
 stats = showStatistics(df, brProiz)
 
