@@ -62,13 +62,13 @@ def showPlots(df):
 
 
 def showStatistics(df, brProiz):
-    return f"Najskuplji predmet: {df['Proizvod'][df['Cijena'].idxmax()]} Cijena: {df['Cijena'].max()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Srednja vrijednost proizvoda: {df['Cijena'].mean()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Standardna devijacija: {df['Cijena'].std()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Medijan: {df['Cijena'].median()} {round(df['Valuta'][df['Cijena'].idxmax()],2)}\n\
-            Potrošnja bez najskupljeg proizvoda: {round(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max(),2)}\n\
-            Srednja vrijednost: {round((df['Kumulativna suma'].iloc[-1])/brProiz,2)}\n\
-            Današnja potrošnja: {round(df['Dnevna Potrošnja'].iloc[-1],2)}"
+    return f"Najskuplji predmet: {df['Proizvod'][df['Cijena'].idxmax()]} Cijena: {round(float(df['Cijena'].max()),2)}  {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Srednja vrijednost proizvoda: {round(float(df['Cijena'].mean()),2)} {df['Valuta'][df['Cijena'].idxmax()]} \n\
+            Standardna devijacija: {round(float(df['Cijena'].std()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Medijan: {round(float(df['Cijena'].median()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Potrošnja bez najskupljeg proizvoda: {round(float(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Srednja vrijednost: {round(float((df['Kumulativna suma'].iloc[-1])/brProiz),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Današnja potrošnja: {round(float(df['Dnevna Potrošnja'].iloc[-1]),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
 
     # Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
 
