@@ -49,14 +49,14 @@ def showPlots(df):
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
 
-    fig.add_trace(
-        go.Line(
-            x=df["Datum"],
-            y=line_fit(np.linspace(0, len(df["Datum"]), len(df["Datum"])), k, l),
-            name="Linear fit",
-            mode="markers",
-        )
-    )
+    # fig.add_trace(
+    #     go.Line(
+    #         x=df["Datum"],
+    #         y=line_fit(np.linspace(0, len(df["Datum"]), len(df["Datum"])), k, l),
+    #         name="Linear fit",
+    #         mode="markers",
+    #     )
+    # )
     # pio.write_image(fig, imName, width=2000, height=2000)
     return fig.show()
 
@@ -65,10 +65,10 @@ def showStatistics(df, brProiz):
     return f"Najskuplji predmet: {df['Proizvod'][df['Cijena'].idxmax()]} Cijena: {df['Cijena'].max()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Srednja vrijednost proizvoda: {df['Cijena'].mean()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Standardna devijacija: {df['Cijena'].std()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Medijan: {df['Cijena'].median()} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Potrošnja bez najskupljeg proizvoda: {df['Kumulativna suma'].iloc[-1] - df['Cijena'].max()}\n\
-            Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1])/brProiz}\n\
-            Današnja potrošnja: {df['Dnevna Potrošnja'].iloc[-1]}"
+            Medijan: {df['Cijena'].median()} {round(df['Valuta'][df['Cijena'].idxmax()],2)}\n\
+            Potrošnja bez najskupljeg proizvoda: {round(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max(),2)}\n\
+            Srednja vrijednost: {round((df['Kumulativna suma'].iloc[-1])/brProiz,2)}\n\
+            Današnja potrošnja: {round(df['Dnevna Potrošnja'].iloc[-1],2)}"
 
     # Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
 
