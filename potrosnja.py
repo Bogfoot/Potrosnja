@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from datetime import timedelta
 import pandas as pd
 import numpy as np
 from tabulate import tabulate
@@ -51,12 +52,21 @@ def showPlots(df):
 
 
 def showStatistics(df, brProiz):
+    end_date = df['Datum'].max()
+    start_date = end_date - timedelta(days=6)
+    # Filter the DataFrame to include only the last 7 days
+    last_7_days_df = df[(df['Datum'] >= start_date) & (df['Datum'] <= end_date) & (df['Svrha'] != 'plaća')]
+
+    # Calculate the sum of the 'price' column for the last 7 days
+    total_price_last_7_days = last_7_days_df['Cijena'].sum()
+
     return f"Najskuplji predmet: {df['Proizvod'][df['Cijena'].idxmax()]} Cijena: {round(float(df['Cijena'].max()),2)}  {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Srednja vrijednost proizvoda: {round(float(df['Cijena'].mean()),2)} {df['Valuta'][df['Cijena'].idxmax()]} \n\
             Standardna devijacija: {round(float(df['Cijena'].std()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Medijan: {round(float(df['Cijena'].median()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Srednja vrijednost: {round(float((df['Kumulativna suma'].iloc[-1])/brProiz),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Današnja potrošnja: {round(float(df['Dnevna Potrošnja'].iloc[-1]),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
+            Današnja potrošnja: {round(float(df['Dnevna Potrošnja'].iloc[-1]),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Tjedna potrošnja: {round(float(total_price_last_7_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
 
     # Srednja vrijednost: {(df['Kumulativna suma'].iloc[-1] - df['Cijena'].max())/brProiz}\n\
 
