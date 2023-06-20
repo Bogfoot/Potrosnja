@@ -46,6 +46,7 @@ def showPlots(df):
 
 
 def showStatistics(df, brProiz):
+    # Week
     end_date = df["Datum"].max()
     start_date = end_date - timedelta(days=6)
 
@@ -58,6 +59,20 @@ def showStatistics(df, brProiz):
 
     # Calculate the sum of the 'price' column for the last 7 days
     total_price_last_7_days = last_7_days_df["Cijena"].sum()
+    end_date = df["Datum"].max()
+    start_date = end_date - timedelta(days=30)
+
+    # Filter the DataFrame to include only the last 7 days
+    last_30_days_df = df[
+        (df["Datum"] >= start_date)
+        & (df["Datum"] <= end_date)
+        & (df["Svrha"] != "plaća")
+    ]
+
+    # Calculate the sum of the 'price' column for the last 7 days
+    total_price_last_30_days = last_30_days_df["Cijena"].sum()
+
+    # Month
 
     return f"Najskuplji predmet: {df['Proizvod'][df['Cijena'].idxmax()]} Cijena: {round(float(df['Cijena'].max()),2)}  {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Srednja vrijednost proizvoda: {round(float(df['Cijena'].mean()),2)} {df['Valuta'][df['Cijena'].idxmax()]} \n\
@@ -65,7 +80,8 @@ def showStatistics(df, brProiz):
             Medijan: {round(float(df['Cijena'].median()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Srednja vrijednost: {round(float((df['Kumulativna suma'].iloc[-1])/brProiz),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Današnja potrošnja: {round(float(df['Dnevna Potrošnja'].iloc[-1]),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Tjedna potrošnja: {round(float(total_price_last_7_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
+            Tjedna potrošnja: {round(float(total_price_last_7_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Mjesećna potrošnja: {round(float(total_price_last_30_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
 
 
 def line_fit(x, k, l):
