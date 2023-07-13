@@ -38,7 +38,7 @@ def newDate(df):
 def showPlots(df):
     fig = go.Figure()
     # imName = ( "Slike/GrafPotrošnje" + datetime.datetime.today().strftime("%d_%m_%Y") + ".png")
-    fig.add_trace(go.Line(x=df["Datum"], y=df["Cijena"], name="Potršnja"))
+    fig.add_trace(go.Line(x=df["Datum"], y=df["Ukupna cijena"], name="Potrošnja"))
     fig.add_trace(
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
