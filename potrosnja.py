@@ -13,7 +13,6 @@ def newPriceCalculation(df, brojProizvoda=0):
     sum = 0
     cum_sum = []
     c = CurrencyConverter()
-    df["Stara cijena"] = df["Cijena"]
     uk = []
     for item in range(len(df["Cijena"])):
         if df["Valuta"][item] != native_val:
