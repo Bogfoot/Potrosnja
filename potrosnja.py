@@ -8,6 +8,8 @@ import plotly.graph_objects as go
 import os
 import sys
 
+image = sys.argv[1]
+
 
 def newPriceCalculation(df, brojProizvoda=0):
     sum = 0
@@ -41,7 +43,10 @@ def showPlots(df):
     fig.add_trace(
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
-    return fig.show()
+    if image != "0":
+        return fig.show()
+    else:
+        return
 
 
 def showStatistics(df, brProiz):
