@@ -52,7 +52,7 @@ def showPlots(df):
 def showStatistics(df, brProiz):
     # Week
     end_date = df["Datum"].max()
-    start_date = end_date - timedelta(days=6)
+    start_date = end_date - timedelta(days=7)
 
     # Filter the DataFrame to include only the last 7 days
     last_7_days_df = df[
