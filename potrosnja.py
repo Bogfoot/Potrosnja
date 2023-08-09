@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from datetime import timedelta
+from datetime import datetime
 import pandas as pd
 import numpy as np
 from tabulate import tabulate
@@ -116,6 +117,10 @@ stats = showStatistics(df, brProiz)
 
 df.to_excel("Potrošnja.xlsx")
 
-df = tabulate(df, showindex=False, headers=df.columns)
-print(df)
+today = datetime.now().date()
+today_df = df[df['Datum'] == today]
+df = tabulate(df.tail(), showindex=False, headers=df.columns)
+today = tabulate(today_df,showindex=False, headers = today_df.columns)
+# print(df)
+print(today)
 print(stats)
