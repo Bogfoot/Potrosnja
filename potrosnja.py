@@ -119,8 +119,11 @@ df.to_excel("Potrošnja.xlsx")
 
 today = datetime.now().date()
 today_df = df[df['Datum'] == today]
-df = tabulate(df.tail(), showindex=False, headers=df.columns)
+df = tabulate(df, showindex=False, headers=df.columns)
 today = tabulate(today_df,showindex=False, headers = today_df.columns)
-# print(df)
-print(today)
+if sys.argv[1] != 0:
+    print(df)
+else:
+    print(today)
+
 print(stats)
