@@ -118,9 +118,9 @@ stats = showStatistics(df, brProiz)
 df.to_excel("Potrošnja.xlsx")
 
 today = datetime.now().date()
-today_df = df[df['Datum'] == today]
+today_df = df[df["Datum"] == today]
 df = tabulate(df, showindex=False, headers=df.columns)
-today = tabulate(today_df,showindex=False, headers = today_df.columns)
+today = tabulate(today_df, showindex=False, headers=today_df.columns)
 if sys.argv[1] != 0:
     print(df)
 else:
