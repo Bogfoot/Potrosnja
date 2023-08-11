@@ -64,10 +64,10 @@ def showStatistics(df, brProiz):
 
     # Calculate the sum of the 'price' column for the last 7 days
     total_price_last_7_days = last_7_days_df["Cijena"].sum()
+
     end_date = df["Datum"].max()
     start_date = end_date - timedelta(days=30)
-
-    # Filter the DataFrame to include only the last 7 days
+    # Filter the DataFrame to include only the last 30 days
     last_30_days_df = df[
         (df["Datum"] >= start_date)
         & (df["Datum"] <= end_date)
