@@ -45,10 +45,10 @@ def showPlots(df):
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
     if image != "0":
-        pio.write_image(fig,"Slike/Spending_Earning_over_time",format='png')
+        pio.write_image(fig, "Slike/Spending_Earning_over_time", format="png", scale=8)
         return fig.show()
     else:
-        pio.write_image(fig,"Slike/Spending_Earning_over_time",format='png')
+        pio.write_image(fig, "Slike/Spending_Earning_over_time", format="png", scale=8)
         return
 
 
