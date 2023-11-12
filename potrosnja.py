@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-from datetime import timedelta
-from datetime import datetime
+from datetime import timedelta, datetime
 import pandas as pd
 import numpy as np
 from tabulate import tabulate
 from currency_converter import CurrencyConverter
 import plotly.graph_objects as go
+import plotly.io as pio
 import os
 import sys
 
@@ -45,12 +45,14 @@ def showPlots(df):
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
     if image != "0":
+        pio.write_image(fig,"Slike/Spending_Earning_over_time",format='png')
         return fig.show()
     else:
+        pio.write_image(fig,"Slike/Spending_Earning_over_time",format='png')
         return
 
 
-def showStatistics(df, brProiz):
+def showStatistics(df):
     # Week
     end_date = df["Datum"].max()
     start_date = end_date - timedelta(days=7)
@@ -59,11 +61,11 @@ def showStatistics(df, brProiz):
     last_7_days_df = df[
         (df["Datum"] >= start_date)
         & (df["Datum"] <= end_date)
-        & (df["Svrha"] != "plaća")
+        & (df["Svrha"].str.lower() != "plaća")
     ]
 
     # Calculate the sum of the 'price' column for the last 7 days
-    total_price_last_7_days = last_7_days_df["Cijena"].sum()
+    total_price_last_7_days = np.sum(last_7_days_df["Cijena"])
 
     end_date = df["Datum"].max()
     start_date = end_date - timedelta(days=30)
@@ -71,18 +73,15 @@ def showStatistics(df, brProiz):
     last_30_days_df = df[
         (df["Datum"] >= start_date)
         & (df["Datum"] <= end_date)
-        & (df["Svrha"] != "plaća")
+        & (df["Svrha"].str.lower() != "plaća")
     ]
 
     # Calculate the sum of the 'price' column for the last 7 days
-    total_price_last_30_days = last_30_days_df["Cijena"].sum()
+    total_price_last_30_days = np.sum(last_30_days_df["Cijena"])
 
-    # Month
-
-    return f"Srednja vrijednost proizvoda: {round(float(df['Cijena'].mean()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Standardna devijacija: {round(float(df['Cijena'].std()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Medijan: {round(float(df['Cijena'].median()),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Srednja vrijednost: {round(float((df['Kumulativna suma'].iloc[-1])/brProiz),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+    return f"Srednja vrijednost proizvoda: {round(float(np.mean(df['Cijena']>=0)),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Standardna devijacija: {round(float(np.std(df['Cijena']>=0)),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Medijan: {round(float(np.median(df['Cijena']>=0)),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Današnja potrošnja: {round(float(df['Dnevna Potrošnja'].iloc[-1]),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Tjedna potrošnja: {round(float(total_price_last_7_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Mjesećna potrošnja: {round(float(total_price_last_30_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
@@ -113,7 +112,7 @@ print(f"k = {k}\n\nl = {l}")
 df["Dnevna Potrošnja"] = df["Cijena"] * df["Kolicina"]
 df["Dnevna Potrošnja"] = df.groupby(df["Datum"])["Dnevna Potrošnja"].transform("sum")
 showPlots(df)
-stats = showStatistics(df, brProiz)
+stats = showStatistics(df)
 
 df.to_excel("Potrošnja.xlsx")
 
