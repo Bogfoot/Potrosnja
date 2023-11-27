@@ -39,16 +39,13 @@ def newDate(df):
 
 def showPlots(df):
     fig = go.Figure()
-    # imName = ( "Slike/GrafPotrošnje" + datetime.datetime.today().strftime("%d_%m_%Y") + ".png")
     fig.add_trace(go.Line(x=df["Datum"], y=df["Ukupna cijena"], name="Potrošnja"))
     fig.add_trace(
         go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
     )
     if image != "0":
-        # pio.write_image(fig, "Slike/Spending_Earning_over_time", format="png", scale=8)
         return fig.show()
     else:
-        # pio.write_image(fig, "Slike/Spending_Earning_over_time", format="png", scale=8)
         return
 
 
@@ -93,8 +90,12 @@ def line_fit(x, k, l):
 
 native_val = "eur"
 # proizvod, cijena, valuta, kolicina, svrha, datum
-df = pd.read_csv("potrosnja.csv", delimiter=",", header=0)
+moja_potrosnja = "potrosnja.csv"
+df = pd.read_csv(moja_potrosnja, delimiter=",", header=0)
+df["Kolicina"].fillna(1, inplace=True)
+df.to_csv(moja_potrosnja, index=False)
 df.sort_values("Datum")
+
 
 if not os.path.exists("Slike"):
     os.mkdir("Slike")
