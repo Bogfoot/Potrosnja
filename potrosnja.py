@@ -39,9 +39,28 @@ def newDate(df):
 
 def showPlots(df):
     fig = go.Figure()
-    fig.add_trace(go.Line(x=df["Datum"], y=df["Ukupna cijena"], name="Potrošnja"))
     fig.add_trace(
-        go.Line(x=df["Datum"], y=df["Kumulativna suma"], name="Kumulativna potrošnja")
+        go.Line(
+            x=df["Datum"],
+            y=df["Ukupna cijena"],
+            name="Potrošnja",
+        )
+    )
+    fig.add_trace(
+        go.Line(
+            x=df["Datum"],
+            y=df["Kumulativna suma"],
+            name="Kumulativna potrošnja",
+            mode="lines",
+            hovertext=df["Proizvod"],
+            marker=dict(size=8),
+        )
+    )
+    fig.update_layout(
+        title="Potrošnja i kumulativna suma",
+        xaxis_title="Datum",
+        yaxis_title="Potrošnja i kumulativna suma",
+        hovermode="x unified",
     )
     if image != "0":
         return fig.show()
