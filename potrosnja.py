@@ -1,18 +1,18 @@
 #!/usr/bin/python3
-from datetime import timedelta, datetime
-import pandas as pd
-import numpy as np
-from tabulate import tabulate
-from currency_converter import CurrencyConverter
-import plotly.graph_objects as go
-import plotly.io as pio
 import os
 import sys
+from datetime import datetime, timedelta
+
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+from currency_converter import CurrencyConverter
+from tabulate import tabulate
 
 image = sys.argv[1]
 
 
-def newPriceCalculation(df, brojProizvoda=0):
+def newPriceCalculation(df):
     sum = 0
     cum_sum = []
     c = CurrencyConverter()
@@ -27,10 +27,8 @@ def newPriceCalculation(df, brojProizvoda=0):
         ukupno = -df["Cijena"][item] * df["Kolicina"][item]
         uk.append(ukupno)
         sum += ukupno
-        if df["Svrha"][item] != "plaća":
-            brojProizvoda += df["Kolicina"][item]
         cum_sum.append(sum)
-    return cum_sum, brojProizvoda, uk
+    return cum_sum, uk
 
 
 def newDate(df):
@@ -65,7 +63,7 @@ def showPlots(df):
     if image != "0":
         return fig.show()
     else:
-        return
+        return 0
 
 
 def showStatistics(df):
@@ -103,18 +101,18 @@ def showStatistics(df):
             Mjesećna potrošnja: {round(float(total_price_last_30_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
 
 
-def line_fit(x, k, l):
-    return k * x + l
+def saveDF(df):
+    df["Kolicina"].fillna(1, inplace=True)
+    df.to_csv(moja_potrosnja, index=False)
+    df.sort_values("Datum")
+    return df
 
 
 native_val = "eur"
 # proizvod, cijena, valuta, kolicina, svrha, datum
 moja_potrosnja = "potrosnja.csv"
 df = pd.read_csv(moja_potrosnja, delimiter=",", header=0)
-df["Kolicina"].fillna(1, inplace=True)
-df.to_csv(moja_potrosnja, index=False)
-df.sort_values("Datum")
-
+df = saveDF(df)
 
 if not os.path.exists("Slike"):
     os.mkdir("Slike")
@@ -122,7 +120,7 @@ if not os.path.exists("Slike"):
 df["Datum"] = newDate(df)
 df["Datum"] = df["Datum"].dt.date
 length = len(df["Cijena"])
-df["Kumulativna suma"], brProiz, df["Ukupna cijena"] = newPriceCalculation(df)
+df["Kumulativna suma"], df["Ukupna cijena"] = newPriceCalculation(df)
 df.sort_values(by="Datum")
 
 datum = np.linspace(0, length, length)
