@@ -78,6 +78,7 @@ def showStatistics(df):
         & (df["Svrha"].str.lower() != "plaća")
     ]
 
+    print(tabulate(last_7_days_df))
     # Calculate the sum of the 'price' column for the last 7 days
     total_price_last_7_days = np.sum(last_7_days_df["Cijena"])
 
@@ -90,6 +91,7 @@ def showStatistics(df):
         & (df["Svrha"].str.lower() != "plaća")
     ]
 
+    # print(tabulate(last_30_days_df))
     # Calculate the sum of the 'price' column for the last 7 days
     total_price_last_30_days = np.sum(last_30_days_df["Cijena"])
 
