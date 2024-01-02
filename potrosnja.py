@@ -35,37 +35,6 @@ def newDate(df):
     return pd.to_datetime(df["Datum"], format="%d.%m.%Y", dayfirst=True)
 
 
-def showPlots(df):
-    fig = go.Figure()
-    fig.add_trace(
-        go.Line(
-            x=df["Datum"],
-            y=df["Ukupna cijena"],
-            name="Potrošnja",
-        )
-    )
-    fig.add_trace(
-        go.Line(
-            x=df["Datum"],
-            y=df["Kumulativna suma"],
-            name="Kumulativna potrošnja",
-            mode="lines",
-            hovertext=df["Proizvod"],
-            marker=dict(size=8),
-        )
-    )
-    fig.update_layout(
-        title="Potrošnja i kumulativna suma",
-        xaxis_title="Datum",
-        yaxis_title="Potrošnja i kumulativna suma",
-        hovermode="x unified",
-    )
-    if image != "0":
-        return fig.show()
-    else:
-        return 0
-
-
 def showStatistics(df):
     # Week
     end_date = df["Datum"].max()
@@ -108,6 +77,37 @@ def saveDF(df):
     df.to_csv(moja_potrosnja, index=False)
     df.sort_values("Datum")
     return df
+
+
+def showPlots(df):
+    fig = go.Figure()
+    fig.add_trace(
+        go.Line(
+            x=df["Datum"],
+            y=df["Ukupna cijena"],
+            name="Potrošnja",
+        )
+    )
+    fig.add_trace(
+        go.Line(
+            x=df["Datum"],
+            y=df["Kumulativna suma"],
+            name="Kumulativna potrošnja",
+            mode="lines",
+            hovertext=df["Proizvod"],
+            marker=dict(size=8),
+        )
+    )
+    fig.update_layout(
+        title="Potrošnja i kumulativna suma",
+        xaxis_title="Datum",
+        yaxis_title="Potrošnja i kumulativna suma",
+        hovermode="x unified",
+    )
+    if image != "0":
+        return fig.show()
+    else:
+        return 0
 
 
 native_val = "eur"
