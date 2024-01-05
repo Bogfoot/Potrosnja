@@ -9,7 +9,10 @@ import plotly.graph_objects as go
 from currency_converter import CurrencyConverter
 from tabulate import tabulate
 
-image = sys.argv[1]
+try:
+    image = sys.argv[1]
+except:
+    image = "0"
 
 
 def newPriceCalculation(df):
