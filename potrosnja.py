@@ -142,11 +142,13 @@ df.to_excel("Potrošnja.xlsx")
 # This is to print out only todays expenses
 # otherwise print out everything
 
-# today = datetime.now().date()
-# today_df = df[df["Datum"] == today]
-# df = tabulate(df, showindex=False, headers=df.columns)
-# today = tabulate(today_df, showindex=False, headers=today_df.columns)
+today = datetime.now().date()
+today_df = df[df["Datum"] == today]
+df = tabulate(df, showindex=False, headers=df.columns)
+today = tabulate(today_df, showindex=False, headers=today_df.columns)
 if image == 1:
     print(df)
+else:
+    print(today)
 
 print(stats)
