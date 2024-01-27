@@ -1,3 +1,5 @@
+#%%
+
 #!/usr/bin/python3
 import os
 import sys
@@ -113,8 +115,13 @@ def showPlots(df):
 
 native_val = "eur"
 # proizvod, cijena, valuta, kolicina, svrha, datum
-moja_potrosnja = "potrosnja.csv"
-df = pd.read_csv(moja_potrosnja, delimiter=",", header=0)
+full_path =  os.path.dirname(os.path.abspath("__file__"))
+file_name= "potrosnja.csv"
+moja_potrosnja = os.path.join(file_name,full_path)
+if sys.platform == "Linux":
+    df = pd.read_csv(moja_potrosnja, delimiter=",", header=0)
+else:
+    df = pd.read_csv(file_name, delimiter=",", header=0)
 df = saveDF(df)
 
 if not os.path.exists("Slike"):
@@ -148,5 +155,4 @@ if image == 1:
     print(df)
 else:
     print(today)
-
 print(stats)

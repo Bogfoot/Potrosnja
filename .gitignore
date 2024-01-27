@@ -1,2 +1,6 @@
 *.sh
 *.xlsx
+build/
+*.spec
+randomstuff
+.spy*
