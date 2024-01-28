@@ -1,4 +1,4 @@
-#%%
+# %%
 
 #!/usr/bin/python3
 import os
@@ -115,9 +115,9 @@ def showPlots(df):
 
 native_val = "eur"
 # proizvod, cijena, valuta, kolicina, svrha, datum
-full_path =  os.path.dirname(os.path.abspath("__file__"))
-file_name= "potrosnja.csv"
-moja_potrosnja = os.path.join(file_name,full_path)
+full_path = os.path.dirname(os.path.abspath("__file__"))
+file_name = "potrosnja.csv"
+moja_potrosnja = os.path.join(full_path, file_name)
 if sys.platform == "Linux":
     df = pd.read_csv(moja_potrosnja, delimiter=",", header=0)
 else:
