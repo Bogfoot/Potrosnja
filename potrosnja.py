@@ -63,13 +63,20 @@ def showStatistics(df):
         & (df["Datum"] <= end_date)
         & (df["Svrha"].str.lower() != "plaća")
     ]
+    todays_spending = df[(df["Datum"] == datetime.today().strftime("%d-%m-%Y"))]
+    # Calculate the product of "Cijena" and "Količina" for each row
+    todays_spending['Total_Price'] = todays_spending['Cijena'] * todays_spending['Kolicina']
+
+    # Sum up the total prices
+    total_spending_today = todays_spending['Total_Price'].sum()
+
 
     # Calculate the sum of the 'price' column for the last 7 days
     total_price_last_30_days = np.sum(last_30_days_df["Cijena"])
 
     return f"Srednja vrijednost proizvoda: {round(float(np.mean(df['Cijena']>=0)),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Standardna devijacija: {round(float(np.std(df['Cijena']>=0)),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
-            Današnja potrošnja: {round(float(df['Dnevna Potrošnja'].iloc[-1]),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
+            Današnja potrošnja: {total_spending_today} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Tjedna potrošnja: {round(float(total_price_last_7_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}\n\
             Mjesećna potrošnja: {round(float(total_price_last_30_days),2)} {df['Valuta'][df['Cijena'].idxmax()]}"
 
