@@ -37,7 +37,8 @@ def newPriceCalculation(df):
 
 
 def newDate(df):
-    return pd.to_datetime(df["Datum"], format="%d.%m.%Y", dayfirst=True)
+    # return pd.to_datetime(df["Datum"], format="%d.%m.%Y", dayfirst=True)
+    return pd.to_datetime(df["Datum"], format="ISO8601", dayfirst=True)
 
 
 def showStatistics(df):
@@ -65,11 +66,12 @@ def showStatistics(df):
     ]
     todays_spending = df[(df["Datum"] == datetime.today().strftime("%d-%m-%Y"))]
     # Calculate the product of "Cijena" and "Količina" for each row
-    todays_spending['Total_Price'] = todays_spending['Cijena'] * todays_spending['Kolicina']
+    todays_spending["Total_Price"] = (
+        todays_spending["Cijena"] * todays_spending["Kolicina"]
+    )
 
     # Sum up the total prices
-    total_spending_today = todays_spending['Total_Price'].sum()
-
+    total_spending_today = todays_spending["Total_Price"].sum()
 
     # Calculate the sum of the 'price' column for the last 7 days
     total_price_last_30_days = np.sum(last_30_days_df["Cijena"])
@@ -84,7 +86,6 @@ def showStatistics(df):
 def saveDF(df):
     df["Kolicina"].fillna(1, inplace=True)
     df.to_csv(moja_potrosnja, index=False)
-    df.sort_values("Datum")
     return df
 
 
@@ -133,11 +134,13 @@ df = saveDF(df)
 if not os.path.exists("Slike"):
     os.mkdir("Slike")
 
+
 df["Datum"] = newDate(df)
 df["Datum"] = df["Datum"].dt.date
+df.sort_values(by="Datum",ascending=False)
+
 length = len(df["Cijena"])
 df["Kumulativna suma"], df["Ukupna cijena"] = newPriceCalculation(df)
-df.sort_values(by="Datum")
 
 datum = np.linspace(0, length, length)
 k, l = np.polyfit(datum, df["Kumulativna suma"], 1)
