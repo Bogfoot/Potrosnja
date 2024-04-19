@@ -21,7 +21,7 @@ else:
     df = pd.read_csv(file_name, delimiter=",", header=0)
 
 # Convert the "Datum" column to datetime format
-df['Datum'] = pd.to_datetime(df['Datum'], format='%d.%m.%Y')
+df['Datum'] = pd.to_datetime(df['Datum'], format='%Y-%m-%d')
 # Calculate the total spending including both "Cijena" and "Kolicina"
 df['Total'] = df['Cijena'] * df['Kolicina']
 
