@@ -1,14 +1,14 @@
-# %%
-
 #!/usr/bin/python3
 import os
 import sys
 from datetime import datetime, timedelta
 
+import matplotlib.pyplot as plt
+import mplcursors
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 from currency_converter import CurrencyConverter
+from matplotlib.widgets import Button
 from tabulate import tabulate
 
 try:
@@ -37,7 +37,6 @@ def newPriceCalculation(df):
 
 
 def newDate(df):
-    # return pd.to_datetime(df["Datum"], format="%d.%m.%Y", dayfirst=True)
     return pd.to_datetime(df["Datum"], format="ISO8601", dayfirst=True)
 
 
@@ -89,35 +88,61 @@ def saveDF(df):
     return df
 
 
-def showPlots(df):
-    fig = go.Figure()
-    fig.add_trace(
-        go.Line(
-            x=df["Datum"],
-            y=df["Ukupna cijena"],
-            name="Potrošnja",
-        )
+class AnnotationToggle:
+    def __init__(self, annotations):
+        self.annotations = annotations
+        self.visible = True
+
+    def toggle(self, event):
+        self.visible = not self.visible
+        for ann in self.annotations:
+            ann.set_visible(self.visible)
+        plt.draw()
+
+
+def showPlots(df, image):
+    fig, ax = plt.subplots()
+
+    # Plotting "Potrošnja"
+    (potrosnja_line,) = ax.plot(df["Datum"], df["Ukupna cijena"], label="Potrošnja")
+
+    # Plotting "Kumulativna potrošnja" with markers
+    (kumulativna_line,) = ax.plot(
+        df["Datum"], df["Kumulativna suma"], label="Kumulativna potrošnja", marker="o"
     )
-    fig.add_trace(
-        go.Line(
-            x=df["Datum"],
-            y=df["Kumulativna suma"],
-            name="Kumulativna potrošnja",
-            mode="lines",
-            hovertext=df["Proizvod"],
-            marker=dict(size=8),
-        )
-    )
-    fig.update_layout(
-        title="Potrošnja i kumulativna suma",
-        xaxis_title="Datum",
-        yaxis_title="Potrošnja i kumulativna suma",
-        hovermode="x unified",
-    )
-    if image != "0":
-        return fig.show()
-    else:
+
+    # Adding hover text as annotations only for items with "svrha" == "plaća"
+    annotations = []
+    for i, txt in enumerate(df["Proizvod"]):
+        if df["Svrha"][i] == "plaća":
+            annotations.append(
+                ax.annotate(
+                    txt, (df["Datum"][i], df["Kumulativna suma"][i]), visible=False
+                )
+            )
+
+    # Setting title and labels
+    ax.set_title("Potrošnja i kumulativna suma")
+    ax.set_xlabel("Datum")
+    ax.set_ylabel("Potrošnja i kumulativna suma")
+
+    # Showing legend
+    ax.legend()
+
+    # Make the plot interactive
+    mplcursors.cursor([potrosnja_line, kumulativna_line], hover=True)
+
+    # Create a button to toggle annotations
+    toggle_button_ax = plt.axes([0.8, 0.05, 0.1, 0.04])
+    toggle_button = Button(toggle_button_ax, "Toggle Annotations")
+    annotation_toggle = AnnotationToggle(annotations)
+    toggle_button.on_clicked(annotation_toggle.toggle)
+
+    # Displaying the plot if image is not "0"
+    if image == "0":
         return 0
+    else:
+        plt.show()
 
 
 native_val = "eur"
@@ -137,7 +162,7 @@ if not os.path.exists("Slike"):
 
 df["Datum"] = newDate(df)
 df["Datum"] = df["Datum"].dt.date
-df.sort_values(by="Datum",ascending=False)
+df.sort_values(by="Datum", ascending=False)
 
 length = len(df["Cijena"])
 df["Kumulativna suma"], df["Ukupna cijena"] = newPriceCalculation(df)
@@ -148,7 +173,7 @@ print(f"k = {k}\n\nl = {l}")
 
 df["Dnevna Potrošnja"] = df["Cijena"] * df["Kolicina"]
 df["Dnevna Potrošnja"] = df.groupby(df["Datum"])["Dnevna Potrošnja"].transform("sum")
-showPlots(df)
+showPlots(df,image)
 stats = showStatistics(df)
 
 df.to_excel("Potrošnja.xlsx")
