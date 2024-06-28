@@ -37,7 +37,7 @@ def newPriceCalculation(df):
 
 
 def newDate(df):
-    return pd.to_datetime(df["Datum"], format="ISO8601", dayfirst=True)
+    return pd.to_datetime(df["Datum"].str.strip(), format="ISO8601", dayfirst=True)
 
 
 def showStatistics(df):
@@ -49,7 +49,7 @@ def showStatistics(df):
     last_7_days_df = df[
         (df["Datum"] >= start_date)
         & (df["Datum"] <= end_date)
-        & (df["Svrha"].str.lower() != "plaća")
+        & ((df["Svrha"].str.strip()).str.lower() != "plaća")
     ]
 
     # Calculate the sum of the 'price' column for the last 7 days
@@ -173,7 +173,7 @@ print(f"k = {k}\n\nl = {l}")
 
 df["Dnevna Potrošnja"] = df["Cijena"] * df["Kolicina"]
 df["Dnevna Potrošnja"] = df.groupby(df["Datum"])["Dnevna Potrošnja"].transform("sum")
-showPlots(df,image)
+showPlots(df, image)
 stats = showStatistics(df)
 
 df.to_excel("Potrošnja.xlsx")
